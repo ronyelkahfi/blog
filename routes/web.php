@@ -11,6 +11,4 @@
 |
 */
 
-Route::get('/blade', function () {
-    return view('child');
-});
+Route::get('/myadmin/post', 'admin\Post@showPost');

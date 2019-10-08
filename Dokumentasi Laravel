@@ -1,0 +1,53 @@
+Laravel 6
+0. Alasan belajar Laravel
+   Sudah mengenal laravel sejak kuliah tapi baru kali ini mau serius mempelajarinya. butuh waktu bertahun tahun untuk meyakinkan diri sendiri bahwa mempelajari sesuatu itu bukan karena trend tapi memang ada yang dicari di situ.
+   Latar belakangnya ketika mengerjakan beberapa project menggunakan framework codeigniter. Awalnya tidak masalah ketika skala project masih kecil. lama kelamaan project membesar dan integrasinya juga nggak main main. Sebenarnya tidak ada masalah di fungsionalitas framework maupun software. tapi yang saya rasakan adalah ketika memelihara koding dan mengembangkan aplikasi, terasa sulit. Teori teori Solid Principle, design pattern sudah saya baca. Dan hasilnya laravel saya lihat dekat dengan teori teori yang saya pelajari.Selain itu, komunitasnya yang sudah banyak memungkinkan kita gampang untuk mencari sumber sumber referensi. Alasan lain adalah perkembangan framework ini lumayan cepat jadi tidak kudet dan ketinggalan jaman. banyak teknologi yang digunakan oleh framework ini sehingga selain mempelajari framework kita secara tidak sengaja belajar teknologi teknologi lain, katakanlah blade, composer, dependency manager, vue, react, mixing, sass, dll.
+1. Arsitektur
+   Arsitektur laravel menggunakan model, view, dan controller yang sudah sangat sering diusung oleh framework framework yang lain. Selain itu ada templating engine bawaan dari laravel yang cukup menarik yaitu blade. blade ini oleh laravel dieksekusi menjadi plain php sehingga ketika akses tidak terlalu membebani server.
+   Untuk dependency manager laravel menggunakan composer untuk package package php, dan menggunakan NPM untuk package javascript.
+
+2. Route
+   Route adalah semacam http bridge yang ada di aplikasi. ia yang menentukan apakah request itu ditangani oleh controller atau hanya menampilkan view.
+
+3. Templating
+   Templating di laravel menggunakan blade sebagai basis sistemnya. Ada beberapa fungsi penting di blade.
+   a. Mendefinisikan layout
+      Dua keuntungan menggunakan blade adalah bahwa ia membawa konsep inheritance, dan section. Untuk memulainya coba kita mulai dengan melihat contoh simpel. pertama kita buat master page sebagai layout utama, kita namai ia dengan layouts/app.blade.php
+
+      <html>
+          <head>
+              <title>App Name - @yield('title')</title>
+          </head>
+          <body>
+              @section('sidebar')
+                  This is the master sidebar.
+              @show
+
+              <div class="container">
+                  @yield('content')
+              </div>
+          </body>
+      </html>
+
+      Seperti yang terlihat. Isi dari file adalah html biasa. Coba perhatikan directive @section  dan @yield. @section directive mendefinisikan section dari content.
+
+      @section mendefinisikan bagian konten
+      @yield mendefinisikan menampilkan isi dari section yang diberi parameter yang diberikan ke dalam section
+   b. Extending Layout
+      Ketika membuat child view, pastikan kita meng extend view master yang sudah kita buat sebelumnya. Child yang meng extends view layouts bisa menginject value ke dalam view layout dengan directive @section. Mari kita lihat contoh di bawah ini bahwa kontent akan ditampilkan di layout yang menggunakan directive @yield.
+
+      @extends('layouts.app')
+
+      @section('title', 'Page Title')
+
+      @section('sidebar')
+          @parent
+
+          <p>This is appended to the master sidebar.</p>
+      @endsection
+
+      @section('content')
+          <p>This is my body content.</p>
+      @endsection
+
+      Di atas terlihat section sidebar terdapat @parent directive. Fungsi dari directive ini adalah untuk mengambil value dari section layout dan menampilkannya pada bagian section @parent
