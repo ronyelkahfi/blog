@@ -12,3 +12,5 @@
 */
 
 Route::get('/myadmin/post', 'admin\Post@showPost');
+Route::get('new-post','admin\Post@newPost');
+Route::post('save-post','admin\Post@savePost');
